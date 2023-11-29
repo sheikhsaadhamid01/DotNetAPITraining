@@ -49,6 +49,10 @@ namespace DotNetCourseAPI
             using StreamWriter writer = new StreamWriter("log.txt", append: true);
             writer.WriteLine("");
             writer.WriteLine(sqlSquery);
+            writer.Close();
+
+            string fileData = File.ReadAllText("log.txt");
+            Console.WriteLine($"File Data: {fileData}");
 
         }
 
