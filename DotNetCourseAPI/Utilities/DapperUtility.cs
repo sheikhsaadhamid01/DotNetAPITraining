@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,11 +14,17 @@ namespace DotNetCourseAPI.Utilities
     public class DapperUtility
     {
 
-        private static string _connectionString = "Server=localhost;Database=DotNetCourseDatabase;TrustServerCertificate=true;Trusted_Connection=true;";
+        private static string _connectionString = "";
         private IDbConnection _connection;
-        public DapperUtility() 
+        private IConfiguration _configuration;
+        public DapperUtility(IConfiguration config) 
         {
+            _configuration = config;
+            _connectionString = _configuration.GetConnectionString("DefaultConnection");
+
             _connection = new SqlConnection( _connectionString );
+           
+            
         }
 
         public IEnumerable<T> GetData<T>(string query) 
@@ -34,7 +41,7 @@ namespace DotNetCourseAPI.Utilities
             }
             catch (Exception ex)
             {
-                throw new DBConcurrencyException($"No database record is updated due to invalid Query. Query: {query}");
+                throw new Exception($"{ex.Message}");
             }
 
             return data;
@@ -55,7 +62,7 @@ namespace DotNetCourseAPI.Utilities
             }
             catch (Exception ex)
             {
-                throw new DBConcurrencyException($"No database record is updated due to invalid Query. Query: {query}");
+                throw new Exception($"{ex.Message}");
             }
 
             return data;
@@ -74,7 +81,7 @@ namespace DotNetCourseAPI.Utilities
             }
             catch (Exception ex)
             {
-                throw new DBConcurrencyException($"No database record is updated due to invalid Query. Query: {query}");
+                throw new Exception($"{ex.Message}");
             }
             return isExecuted;
         }
@@ -93,7 +100,7 @@ namespace DotNetCourseAPI.Utilities
             }
             catch (Exception ex)
             {
-                throw new DBConcurrencyException($"No database record is updated due to invalid Query. Query: {query}");
+                throw new Exception($"{ex.Message}");
             }
 
             return rowsUpdated;

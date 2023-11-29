@@ -1,5 +1,6 @@
 ﻿using DotNetCourseAPI.Modules;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,15 @@ namespace DotNetCourseAPI.Utilities
 {
     public class DataContextEF : DbContext
     {
-        private static string _connectionString = "Server=localhost;Database=DotNetCourseDatabase;TrustServerCertificate=true;Trusted_Connection=true;";
+        private static string _connectionString = "";
+        private IConfiguration _configuration;
         public DbSet<Computer> Computer { get; set; }
-        
+        public DataContextEF(IConfiguration config)
+        {
+            _configuration = config;
+            _connectionString = config.GetConnectionString("DefaultConnection")!;
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
