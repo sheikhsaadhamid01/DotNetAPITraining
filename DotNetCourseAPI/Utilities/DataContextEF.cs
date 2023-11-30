@@ -20,6 +20,7 @@ namespace DotNetCourseAPI.Utilities
             _connectionString = config.GetConnectionString("DefaultConnection")!;
         }
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 

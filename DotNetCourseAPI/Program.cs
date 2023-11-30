@@ -1,10 +1,14 @@
-﻿using Dapper;
+﻿using AutoMapper;
+using Dapper;
 using DotNetCourseAPI.Modules;
 using DotNetCourseAPI.Utilities;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Data;
 using System.Data.Common;
+using System.Text.Json;
 
 namespace DotNetCourseAPI
 {
@@ -13,11 +17,78 @@ namespace DotNetCourseAPI
 
         static void Main(string[] args)
         {
-            FileReadWriteDemo();
+            string filePath = Path.GetFullPath(Path.Combine("..//..//..//") + "\\ComputersSnake.json");
+
+            string fileText = File.ReadAllText(filePath);
+
+            Console.WriteLine(fileText);
+            Mapper mapper = new Mapper(new MapperConfiguration((cfg) =>
+            {
+
+            }));
+
+
+
         }
+       
+        public static void SerializeAndDeserialiseJson()
+        {
+            IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            DapperUtility dapper = new DapperUtility(configuration);
+
+            string path = System.AppDomain.CurrentDomain.BaseDirectory;
+            string relativePath = Path.GetFullPath(Path.Combine(path, "..\\..\\..\\") + "\\Computers.json");
+
+
+
+            string computerJsonData = File.ReadAllText(relativePath);
+            //Console.WriteLine(computerJsonData);
+            JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+            IEnumerable<Computer>? computerEnum1 = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<Computer>>(computerJsonData, jsonSerializerOptions);
+
+
+            IEnumerable<Computer>? computerEnum = JsonConvert.DeserializeObject<IEnumerable<Computer>>(computerJsonData);
+            if (computerEnum != null)
+            {
+                foreach (Computer computer in computerEnum)
+                {
+                    string values = @"Values ('" + EscapeSequenceSingleQuote(computer.Motherboard)
+                + "','" + computer.HasWifi
+                + "','" + computer.HasLTE
+                + "','" + computer.ReleaseDate
+                + "','" + computer.Price
+                + "','" + EscapeSequenceSingleQuote(computer.VideoCard)
+                + "')";
+                    string sqlSquery1 = @"Insert into TutorialAppSchema.Computer (Motherboard, HasWifi, HasLTE, ReleaseDate, Price, VideoCard) " + values;
+
+                    dapper.RowsUpdatedFromQueryExecution(sqlSquery1);
+
+                }
+            }
+            JsonSerializerSettings serializerSettings = new JsonSerializerSettings()
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+
+            string relativePath1 = Path.GetFullPath(Path.Combine(path, "..\\..\\..\\") + "\\NewComputers.json");
+            string serializeText = JsonConvert.SerializeObject(computerEnum, serializerSettings);
+
+
+            string relativePath2 = Path.GetFullPath(Path.Combine(path, "..\\..\\..\\") + "\\SystemSerialize.json");
+            string sysSerialize = System.Text.Json.JsonSerializer.Serialize(computerEnum, jsonSerializerOptions);
+
+            File.WriteAllText(relativePath1, serializeText);
+            File.WriteAllText(relativePath2, sysSerialize);
+
+        }
+
         public static void FileReadWriteDemo()
         {
-            Computer computer = new Computer()
+          /*  Computer computer = new Computer()
             {
                 Motherboard = "Z700",
                 HasWifi = true,
@@ -53,12 +124,13 @@ namespace DotNetCourseAPI
 
             string fileData = File.ReadAllText("log.txt");
             Console.WriteLine($"File Data: {fileData}");
+          */
 
         }
 
         public static void DBDemoCode()
         {
-            string configFilePath = "";
+           /* string configFilePath = "";
             IConfiguration config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
 
@@ -130,6 +202,11 @@ namespace DotNetCourseAPI
             Console.WriteLine($"Price: {computer.Price}");
             Console.WriteLine($"VideoCard: {computer.VideoCard}");
             */
+        }
+        private static string EscapeSequenceSingleQuote(string input)
+        {
+            string text = input.Replace("'", "''");
+            return text;
         }
     }
 }
