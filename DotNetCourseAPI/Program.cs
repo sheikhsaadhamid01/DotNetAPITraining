@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Dapper;
 using DotNetCourseAPI.Modules;
+using DotNetCourseAPI.ProgrammingConcepts.IndexersDemo;
 using DotNetCourseAPI.Utilities;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -17,15 +18,15 @@ namespace DotNetCourseAPI
 
         static void Main(string[] args)
         {
-            string filePath = Path.GetFullPath(Path.Combine("..//..//..//") + "\\ComputersSnake.json");
+            Employee emp = new(1001, "James", "Engineer", "R&D", "London", 70000);
 
-            string fileText = File.ReadAllText(filePath);
-
-            Console.WriteLine(fileText);
-            Mapper mapper = new Mapper(new MapperConfiguration((cfg) =>
-            {
-
-            }));
+            Console.WriteLine(emp[0]);
+            Console.WriteLine(emp[1]);
+            Console.WriteLine(emp[2]);
+            Console.WriteLine(emp[3]);
+            Console.WriteLine(emp[4]);
+            Console.WriteLine(emp[5]);
+            Console.WriteLine(emp[6]);
 
 
 
