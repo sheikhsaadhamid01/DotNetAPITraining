@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Dapper;
 using DotNetCourseAPI.Modules;
+using DotNetCourseAPI.ProgrammingConcepts.DelegatesDemo;
 using DotNetCourseAPI.ProgrammingConcepts.IndexersDemo;
 using DotNetCourseAPI.Utilities;
 using Microsoft.Data.SqlClient;
@@ -18,27 +19,15 @@ namespace DotNetCourseAPI
 
         static void Main(string[] args)
         {
-           
 
-            emp[0] = 102;
-            emp[2] = "Senior Engineer";
+            DelegateDemo demo = new DelegateDemo();
+            AddDelegate addDelegate = new AddDelegate(demo.AddNums);
 
-            Console.WriteLine(emp[0]);
-            Console.WriteLine(emp[1]);
-            Console.WriteLine(emp[2]);
-            Console.WriteLine(emp[3]);
-            Console.WriteLine(emp[4]);
-            Console.WriteLine(emp[5]);
-
-            Console.WriteLine();
-            emp["Ename"] = "Ana";
-            Console.WriteLine(emp["Eno"]);
-            Console.WriteLine(emp["Ename"]);
-            Console.WriteLine(emp["Job"]);
-            Console.WriteLine(emp["Dname"]);
-            Console.WriteLine(emp["Location"]);
-            Console.WriteLine(emp["Salary"]);
-        
+            GreetDelegate greetDelegate = new GreetDelegate(DelegateDemo.GreetUser);
+            addDelegate(100, 50);
+            string message = greetDelegate("Saad");
+            Console.WriteLine(message);
+            addDelegate.Invoke(9,5);
 
 
 

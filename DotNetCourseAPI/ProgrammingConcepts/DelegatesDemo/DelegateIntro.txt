@@ -4,15 +4,16 @@ A Delegate hold a reference to a method and then calls the method for execution.
 
 To call a method using a delegate we have 3 steps
 
-1: Define a Delegate
-Syntax: => [<modifier>] delegate [return type] <Name>([<parameter list>]) it is very similar to method except we have to use Delegate Keyword
-Example: 
-public delegate void AddDelegate(int a, int b)
+1: Define a Delegate.
+		Delegates are defined under NameSpaces. But can also be defined inside a class (a nested type)
+		Syntax: => [<modifier>] delegate [return type] <Name>([<parameter list>]) it is very similar to method except we have to use Delegate Keyword
+		Example: 
+		public delegate void AddDelegate(int a, int b)
 
-Two Points to remember when defining the delegate
-1: The return type of Delegate should always be consistent with the return type of Method for which a delegate is holding a reference. 
-2: The Parameters of the Delegate should always be the same type as of the parameters used in Methods.
+		Two Points to remember when defining the delegate
 
+		1: The return type of Delegate should always be consistent with the return type of Method for which a delegate is holding a reference. 
+		2: The Parameters of the Delegate should always be the same type as of the parameters used in Methods.
 
-1: Delegates are defined under NameSpaces. But can also be defined inside a class (a nested type)
-2: Instance of the Delegate 
+2: Instance of the Delegate by passing the method name as a parameter
+3: Call the delegate by passing required parameter values, so that internally the method which is bound with the delegate gets executed.
