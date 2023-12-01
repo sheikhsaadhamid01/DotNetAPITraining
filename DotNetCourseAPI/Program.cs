@@ -18,16 +18,7 @@ namespace DotNetCourseAPI
 
         static void Main(string[] args)
         {
-            Employee emp = new(1001, "James", "Engineer", "R&D", "London", 70000);
-
-            Console.WriteLine(emp[0]);
-            Console.WriteLine(emp[1]);
-            Console.WriteLine(emp[2]);
-            Console.WriteLine(emp[3]);
-            Console.WriteLine(emp[4]);
-            Console.WriteLine(emp[5]);
-            Console.WriteLine(emp[6]);
-
+           
 
 
         }
