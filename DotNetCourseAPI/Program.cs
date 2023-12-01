@@ -20,6 +20,27 @@ namespace DotNetCourseAPI
         {
            
 
+            emp[0] = 102;
+            emp[2] = "Senior Engineer";
+
+            Console.WriteLine(emp[0]);
+            Console.WriteLine(emp[1]);
+            Console.WriteLine(emp[2]);
+            Console.WriteLine(emp[3]);
+            Console.WriteLine(emp[4]);
+            Console.WriteLine(emp[5]);
+
+            Console.WriteLine();
+            emp["Ename"] = "Ana";
+            Console.WriteLine(emp["Eno"]);
+            Console.WriteLine(emp["Ename"]);
+            Console.WriteLine(emp["Job"]);
+            Console.WriteLine(emp["Dname"]);
+            Console.WriteLine(emp["Location"]);
+            Console.WriteLine(emp["Salary"]);
+        
+
+
 
         }
        
